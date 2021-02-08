@@ -6,6 +6,8 @@ import (
 	"fmt"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/google/logger"
+	"github.com/gorilla/mux"
+	"net/http"
 	"os"
 )
 
@@ -41,4 +43,13 @@ func main() {
 	}
 
 	log.Info("Database connection established")
+
+	r := mux.NewRouter()
+	http.Handle("/", r)
+
+	log.Info("HTTP-server listening at 9900")
+	err = http.ListenAndServe(":9900", nil)
+	if err != nil {
+		log.Fatal("Unable to run HTTP server: " + err.Error())
+	}
 }
