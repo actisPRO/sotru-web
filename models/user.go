@@ -15,6 +15,32 @@ type User struct {
 	accessExpiration time.Time
 }
 
+func CreateUser(id string, username string, registeredOn time.Time, lastLogin time.Time, avatarUrl string,
+	accessToken string, refreshToken string, accessExpiration time.Time) (User, error) {
+	user := User{
+		id:               id,
+		username:         username,
+		registeredOn:     registeredOn,
+		lastLogin:        lastLogin,
+		avatarURL:        avatarUrl,
+		ips:              []string{},
+		xboxNames:        []string{},
+		accessToken:      accessToken,
+		refreshToken:     refreshToken,
+		accessExpiration: accessExpiration,
+	}
+	_, err := db.Exec(`INSERT INTO web_users(id, username, registered_on, last_login, avatar_url, access_token, 
+                      refresh_token, access_expiration) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`, id, username,
+		registeredOn.Format("2006-01-02 15:04:05"), lastLogin.Format("2006-01-02 15:04:05"),
+		avatarUrl, accessToken, refreshToken, accessExpiration.Format("2006-01-02 15:04:05"))
+	if err != nil {
+		return User{}, err
+	}
+
+	return user, nil
+}
+
+//region Getters and setters
 func (user *User) GetID() string {
 	return user.id
 }
@@ -127,3 +153,5 @@ func (user *User) SetAccessExpiration(accessExpiration time.Time) error {
 	user.accessExpiration = accessExpiration
 	return nil
 }
+
+//endregion
