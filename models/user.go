@@ -2,6 +2,7 @@ package models
 
 import "time"
 
+// Represents a registered user
 type User struct {
 	id               string
 	username         string
@@ -15,6 +16,7 @@ type User struct {
 	accessExpiration time.Time
 }
 
+// Creates User and saves it to the database
 func CreateUser(id string, username string, registeredOn time.Time, lastLogin time.Time, avatarUrl string,
 	accessToken string, refreshToken string, accessExpiration time.Time) (User, error) {
 	user := User{
@@ -38,6 +40,32 @@ func CreateUser(id string, username string, registeredOn time.Time, lastLogin ti
 	}
 
 	return user, nil
+}
+
+// Gets User with the specified ID
+func GetUser(id string) (User, error) {
+	result := User{}
+	err := db.QueryRow("SELECT * FROM web_users WHERE id = ?", id).Scan(&result.id, &result.username,
+		&result.registeredOn, &result.lastLogin, &result.avatarURL, &result.accessToken, &result.refreshToken,
+		&result.accessExpiration)
+	if err != nil {
+		return User{}, err
+	}
+
+	// todo ips
+	// todo xboxes
+
+	return result, nil
+}
+
+// Removes User with the specified ID.
+func DeleteUser(id string) error {
+	_, err := db.Exec("DELETE FROM web_users WHERE id = ?", id)
+	if err != nil {
+		return err
+	}
+
+	return nil
 }
 
 //region Getters and setters
