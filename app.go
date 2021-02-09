@@ -1,8 +1,6 @@
 package main
 
 import (
-	"./models"
-	"./utils"
 	"database/sql"
 	"fmt"
 	_ "github.com/go-sql-driver/mysql"
@@ -10,6 +8,8 @@ import (
 	"github.com/gorilla/mux"
 	"net/http"
 	"os"
+	"sotru-web/models"
+	"sotru-web/utils"
 )
 
 var (
