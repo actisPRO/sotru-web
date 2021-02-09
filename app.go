@@ -16,7 +16,6 @@ import (
 var (
 	config utils.Config
 	db     *sql.DB
-	log    *logger.Logger
 )
 
 func main() {
@@ -28,13 +27,13 @@ func main() {
 		panic(err)
 		return
 	}
-	log = logger.Init("Logger", true, true, lf)
+	logger.Init("Logger", true, true, lf)
 
-	log.Info("Starting up Sea of Thieves RU webserver")
+	logger.Info("Starting up Sea of Thieves RU webserver")
 
 	config, err = utils.ReadConfig("config.json")
 	if err != nil {
-		log.Fatal("Unable to load configuration file. Error: " + err.Error())
+		logger.Fatal("Unable to load configuration file. Error: " + err.Error())
 	}
 	controllers.UseConfig(config)
 
@@ -42,20 +41,20 @@ func main() {
 	db, err = sql.Open("mysql", fmt.Sprintf("%s:%s@tcp(%s:3306)/%s?parseTime=true",
 		config.DBUser, config.DBPassword, config.DBHost, config.DBName))
 	if err != nil {
-		log.Fatal("Unable to connect to the database. Error: " + err.Error())
+		logger.Fatal("Unable to connect to the database. Error: " + err.Error())
 	}
 	defer db.Close()
 	models.UseDB(db)
 
-	log.Info("Database connection established")
+	logger.Info("Database connection established")
 
 	r := mux.NewRouter()
 	r.HandleFunc("/login", controllers.LoginController)
 	http.Handle("/", r)
 
-	log.Info("HTTP-server listening at 9900")
+	logger.Info("HTTP-server listening at 9900")
 	err = http.ListenAndServe(":9900", nil)
 	if err != nil {
-		log.Fatal("Unable to run HTTP server: " + err.Error())
+		logger.Fatal("Unable to run HTTP server: " + err.Error())
 	}
 }

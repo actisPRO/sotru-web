@@ -7,11 +7,14 @@ import (
 )
 
 type Config struct {
+	ServerAddress   string `json:"server_address"`
 	DBHost          string `json:"db_host"`
 	DBName          string `json:"db_name"`
 	DBUser          string `json:"db_user"`
 	DBPassword      string `json:"db_password"`
 	DiscordOAuthURL string `json:"discord_oauth_url"`
+	DiscordClient   string `json:"discord_client"`
+	DiscordSecret   string `json:"discord_secret"`
 }
 
 // Loads configuration from the specified JSON file.
