@@ -1,6 +1,7 @@
 package main
 
 import (
+	"./models"
 	"./utils"
 	"database/sql"
 	"fmt"
@@ -41,6 +42,8 @@ func main() {
 	if err != nil {
 		log.Fatal("Unable to connect to the database. Error: " + err.Error())
 	}
+	defer db.Close()
+	models.UseDB(db)
 
 	log.Info("Database connection established")
 
