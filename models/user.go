@@ -69,6 +69,7 @@ func DeleteUser(id string) error {
 }
 
 //region Getters and setters
+
 func (user *User) GetID() string {
 	return user.id
 }
