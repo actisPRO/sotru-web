@@ -8,6 +8,7 @@ import (
 	"github.com/gorilla/mux"
 	"net/http"
 	"os"
+	"sotru-web/controllers"
 	"sotru-web/models"
 	"sotru-web/utils"
 )
@@ -35,6 +36,7 @@ func main() {
 	if err != nil {
 		log.Fatal("Unable to load configuration file. Error: " + err.Error())
 	}
+	controllers.UseConfig(config)
 
 	// database connection
 	db, err = sql.Open("mysql", fmt.Sprintf("%s:%s@tcp(%s:3306)/%s?parseTime=true",
@@ -48,6 +50,7 @@ func main() {
 	log.Info("Database connection established")
 
 	r := mux.NewRouter()
+	r.HandleFunc("/login", controllers.LoginController)
 	http.Handle("/", r)
 
 	log.Info("HTTP-server listening at 9900")
