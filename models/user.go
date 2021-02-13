@@ -1,6 +1,8 @@
 package models
 
-import "time"
+import (
+	"time"
+)
 
 // Represents a registered user
 // Use setter methods for updating values, as they are stored in the database
@@ -55,6 +57,42 @@ func GetUser(id string) (User, error) {
 // Removes User with the specified ID.
 func DeleteUser(id string) error {
 	_, err := db.Exec("DELETE FROM web_users WHERE ID = ?", id)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (user *User) GetIPs() ([]IP, error) {
+	result, err := GetIPs(user.ID)
+	if err != nil {
+		return nil, err
+	}
+
+	return result, nil
+}
+
+func (user *User) AddIP(ip string, lastUsed time.Time) error {
+	_, err := CreateIP(user.ID, ip, lastUsed)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (user *User) GetXboxes() ([]Xbox, error) {
+	result, err := GetXboxes(user.ID)
+	if err != nil {
+		return nil, err
+	}
+
+	return result, nil
+}
+
+func (user *User) AddXbox(xbox string, lastUsed time.Time) error {
+	_, err := CreateXbox(user.ID, xbox, lastUsed)
 	if err != nil {
 		return err
 	}
