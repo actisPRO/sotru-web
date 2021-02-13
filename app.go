@@ -6,6 +6,7 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/google/logger"
 	"github.com/gorilla/mux"
+	"gopkg.in/boj/redistore.v1"
 	"net/http"
 	"os"
 	"sotru-web/controllers"
@@ -16,6 +17,7 @@ import (
 var (
 	config utils.Config
 	db     *sql.DB
+	store  *redistore.RediStore
 )
 
 func main() {
@@ -46,7 +48,18 @@ func main() {
 	defer db.Close()
 	models.UseDB(db)
 
-	logger.Info("Database connection established")
+	logger.Info("MySQL connection established")
+
+	// session store
+	store, err = redistore.NewRediStore(10, "tcp", ":6379", "", []byte(config.SessionSecret))
+	if err != nil {
+		logger.Fatal("Unable to connect to Redis session store. Error: " + err.Error())
+	}
+	defer store.Close()
+	store.SetMaxAge(14 * 24 * 3600)
+	controllers.UseStore(store)
+
+	logger.Info("Redis connection established")
 
 	r := mux.NewRouter()
 	r.HandleFunc("/login", controllers.LoginController)

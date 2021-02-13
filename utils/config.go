@@ -8,6 +8,7 @@ import (
 
 type Config struct {
 	ServerAddress   string `json:"server_address"`
+	SessionSecret   string `json:"session_secret"`
 	DBHost          string `json:"db_host"`
 	DBName          string `json:"db_name"`
 	DBUser          string `json:"db_user"`
