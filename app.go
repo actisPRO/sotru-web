@@ -3,6 +3,7 @@ package main
 import (
 	"database/sql"
 	"fmt"
+	"github.com/bwmarrin/discordgo"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/google/logger"
 	"github.com/gorilla/mux"
@@ -18,6 +19,7 @@ var (
 	config utils.Config
 	db     *sql.DB
 	store  *redistore.RediStore
+	bot    *discordgo.Session
 )
 
 func main() {
@@ -37,6 +39,7 @@ func main() {
 	if err != nil {
 		logger.Fatal("Unable to load configuration file. Error: " + err.Error())
 	}
+	models.UseConfig(config)
 	controllers.UseConfig(config)
 
 	// database connection
@@ -61,7 +64,20 @@ func main() {
 
 	logger.Info("Redis connection established")
 
+	// discord bot connection
+	bot, err = discordgo.New("Bot " + config.DiscordBotToken)
+	if err != nil {
+		logger.Fatal("Unable to create Discord session. Error: " + err.Error())
+	}
+	err = bot.Open()
+	if err != nil {
+		logger.Fatal("Unable to open Discord connection. Error: " + err.Error())
+	}
+	models.UseDiscord(config.DiscordGuild, bot)
+	logger.Info("Discord connection established")
+
 	r := mux.NewRouter()
+	r.HandleFunc("/", controllers.IndexController)
 	r.HandleFunc("/login", controllers.LoginController)
 	http.Handle("/", r)
 

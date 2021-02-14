@@ -3,7 +3,6 @@ package controllers
 import (
 	"database/sql"
 	"encoding/json"
-	"fmt"
 	"github.com/bwmarrin/discordgo"
 	"github.com/google/logger"
 	"net/http"
@@ -26,7 +25,9 @@ func LoginController(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	if session.Values["userid"] != nil {
-		fmt.Fprint(w, "You are authorized")
+		// user is authorized
+		w.Header().Set("Content-Type", "")
+		http.Redirect(w, r, "/", 303)
 		return
 	}
 
@@ -169,6 +170,8 @@ func LoginController(w http.ResponseWriter, r *http.Request) {
 	session.Values["userid"] = user.ID
 	_ = session.Save(r, w)
 
-	fmt.Fprintf(w, "Your IP: %s. Your Xbox: %s.\nYour User entity:\n%+v", ip, xbox, user)
+	// authorization was successful and we can redirect user to the index page
+	w.Header().Set("Content-Type", "")
+	http.Redirect(w, r, "/", 303)
 	return
 }

@@ -4,6 +4,7 @@ go 1.15
 
 require (
 	github.com/bwmarrin/discordgo v0.23.2
+	github.com/eknkc/amber v0.0.0-20171010120322-cdade1c07385 // indirect
 	github.com/garyburd/redigo v1.6.2 // indirect
 	github.com/go-sql-driver/mysql v1.5.0
 	github.com/google/logger v1.1.0

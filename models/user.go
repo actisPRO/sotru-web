@@ -64,6 +64,27 @@ func DeleteUser(id string) error {
 	return nil
 }
 
+// Returns access level of the user:
+// 0 - guest
+// 1 - registered user
+// 100 - administrator
+func (user *User) GetAccess() int {
+	member, err := bot.GuildMember(guild, user.ID)
+	if err != nil {
+		return 1
+	}
+
+	for i := 0; i < len(member.Roles); i++ {
+		for j := 0; j < len(config.AdminRoles); j++ {
+			if member.Roles[i] == config.AdminRoles[j] {
+				return 100
+			}
+		}
+	}
+
+	return 1
+}
+
 func (user *User) GetIPs() ([]IP, error) {
 	result, err := GetIPs(user.ID)
 	if err != nil {

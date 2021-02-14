@@ -7,15 +7,18 @@ import (
 )
 
 type Config struct {
-	ServerAddress   string `json:"server_address"`
-	SessionSecret   string `json:"session_secret"`
-	DBHost          string `json:"db_host"`
-	DBName          string `json:"db_name"`
-	DBUser          string `json:"db_user"`
-	DBPassword      string `json:"db_password"`
-	DiscordOAuthURL string `json:"discord_oauth_url"`
-	DiscordClient   string `json:"discord_client"`
-	DiscordSecret   string `json:"discord_secret"`
+	ServerAddress   string   `json:"server_address"`
+	SessionSecret   string   `json:"session_secret"`
+	DBHost          string   `json:"db_host"`
+	DBName          string   `json:"db_name"`
+	DBUser          string   `json:"db_user"`
+	DBPassword      string   `json:"db_password"`
+	DiscordOAuthURL string   `json:"discord_oauth_url"`
+	DiscordClient   string   `json:"discord_client"`
+	DiscordSecret   string   `json:"discord_secret"`
+	DiscordBotToken string   `json:"discord_bot_token"`
+	DiscordGuild    string   `json:"discord_guild"`
+	AdminRoles      []string `json:"admin_roles"`
 }
 
 // Loads configuration from the specified JSON file.
