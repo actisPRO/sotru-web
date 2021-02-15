@@ -79,6 +79,7 @@ func main() {
 	r := mux.NewRouter()
 	r.HandleFunc("/", controllers.IndexController)
 	r.HandleFunc("/login", controllers.LoginController)
+	r.HandleFunc("/logout", controllers.LogoutController)
 	http.Handle("/", r)
 
 	logger.Info("HTTP-server listening at 9900")

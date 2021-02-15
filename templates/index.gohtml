@@ -1,8 +1,15 @@
 {{define "content"}}
-    <div>
-        <p><b>Имя пользователя:</b> {{ .Content.Username }}</p>
-        <p><b>Уровень доступа:</b> {{ .Access }}</p>
-        <p><b>Аватар:</b></p>
-        <img src="{{ .Content.Avatar }}" alt="Avatar">
-    </div>
+    {{ if eq .Access 0 }}
+        <div>
+            <p><a href="/login">Войти</a></p>
+        </div>
+    {{ else }}
+        <div>
+            <p><b>Имя пользователя:</b> {{ .Content.Username }}</p>
+            <p><b>Уровень доступа:</b> {{ .Access }}</p>
+            <p><b>Аватар:</b></p>
+            <img src="{{ .Content.Avatar }}" alt="Avatar">
+            <p><a href="/logout">Выйти</a></p>
+        </div>
+    {{ end }}
 {{end}}
