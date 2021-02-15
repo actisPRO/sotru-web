@@ -139,9 +139,9 @@ func LoginController(w http.ResponseWriter, r *http.Request) {
 		foundIP := false
 		for i := 0; i < len(userIPs); i++ {
 			if userIPs[i].IP == ip {
-				userIPs[i].LastUsed = time.Now()
+				_ = userIPs[i].SetLastUsed(time.Now())
 				foundIP = true
-				return
+				break
 			}
 		}
 		// if we haven't found anything, we should add this IP
@@ -156,14 +156,14 @@ func LoginController(w http.ResponseWriter, r *http.Request) {
 		foundXbox := false
 		for i := 0; i < len(userXboxes); i++ {
 			if userXboxes[i].Xbox == xbox {
-				userXboxes[i].LastUsed = time.Now()
+				_ = userXboxes[i].SetLastUsed(time.Now())
 				foundXbox = true
-				return
+				break
 			}
 		}
 		// if we haven't found anything, we should add this Xbox
 		if !foundXbox {
-			_ = user.AddXbox(ip, time.Now())
+			_ = user.AddXbox(xbox, time.Now())
 		}
 	}
 

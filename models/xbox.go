@@ -29,7 +29,7 @@ func CreateXbox(userID string, xbox string, lastUsed time.Time) (Xbox, error) {
 // Gets Xbox tags of the specified User
 func GetXboxes(userID string) ([]Xbox, error) {
 	var result []Xbox
-	rows, err := db.Query("SELECT * FROM web_xboxes WHERE user_id = ?")
+	rows, err := db.Query("SELECT * FROM web_xboxes WHERE user_id = ?", userID)
 	if err != nil {
 		if err == sql.ErrNoRows {
 			return result, nil
@@ -44,6 +44,7 @@ func GetXboxes(userID string) ([]Xbox, error) {
 		if err != nil {
 			return nil, err
 		}
+		result = append(result, nextXbox)
 	}
 	err = rows.Err()
 	if err != nil {

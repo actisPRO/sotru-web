@@ -29,7 +29,7 @@ func CreateIP(userID string, ip string, lastUsed time.Time) (IP, error) {
 // Gets IP addresses of the specified User
 func GetIPs(userID string) ([]IP, error) {
 	var result []IP
-	rows, err := db.Query("SELECT * FROM web_ips WHERE user_id = ?")
+	rows, err := db.Query("SELECT * FROM web_ips WHERE user_id = ?", userID)
 	if err != nil {
 		if err == sql.ErrNoRows {
 			return result, nil
@@ -44,6 +44,7 @@ func GetIPs(userID string) ([]IP, error) {
 		if err != nil {
 			return nil, err
 		}
+		result = append(result, nextIP)
 	}
 	err = rows.Err()
 	if err != nil {
