@@ -1,6 +1,8 @@
 package models
 
-import "time"
+import (
+	"time"
+)
 
 type BlacklistEntry struct {
 	ID          string
@@ -55,6 +57,19 @@ func DeleteBlacklistEntry(id string) error {
 	}
 
 	return nil
+}
+
+// Checks if Discord ID - Xbox pair is blacklisted.
+func IsBlacklisted(discordID string, xbox string) bool {
+	result := BlacklistEntry{}
+	err := db.QueryRow("SELECT * FROM blacklist WHERE discord_id = ? AND xbox = ?", discordID, xbox).
+		Scan(&result.ID, &result.DiscordID,
+			&result.DiscordName, &result.XboxTag, &result.BanDate, &result.ModeratorID, &result.Reason, &result.Additional)
+	if err != nil || result.ID == "" {
+		return false
+	}
+
+	return true
 }
 
 func (entry *BlacklistEntry) SetDiscordID(value string) error {

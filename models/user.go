@@ -1,6 +1,7 @@
 package models
 
 import (
+	"sotru-web/utils"
 	"time"
 )
 
@@ -59,6 +60,56 @@ func DeleteUser(id string) error {
 	_, err := db.Exec("DELETE FROM web_users WHERE ID = ?", id)
 	if err != nil {
 		return err
+	}
+
+	return nil
+}
+
+// Blacklists current user
+func (user *User) Blacklist() error {
+	xboxes, err := user.GetXboxes()
+	if err != nil {
+		return err
+	}
+
+	// user has no xbox connected.
+	if xboxes == nil {
+		if !IsBlacklisted(user.ID, "") {
+			_, err = CreateBlacklistEntry(
+				utils.RandomString(6),
+				user.ID,
+				user.Username,
+				"",
+				time.Now(),
+				config.AutoblacklistID,
+				"Автоматическая блокировка системой защиты",
+				"",
+			)
+			if err != nil {
+				return err
+			}
+		}
+
+		return nil
+	}
+
+	// check and block every xbox tag, associated with user
+	for i := 0; i < len(xboxes); i++ {
+		if !IsBlacklisted(user.ID, xboxes[i].Xbox) {
+			_, err = CreateBlacklistEntry(
+				utils.RandomString(6),
+				user.ID,
+				user.Username,
+				xboxes[i].Xbox,
+				time.Now(),
+				config.AutoblacklistID,
+				"Автоматическая блокировка системой защиты",
+				"",
+			)
+			if err != nil {
+				return err
+			}
+		}
 	}
 
 	return nil

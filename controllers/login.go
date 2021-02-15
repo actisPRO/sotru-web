@@ -167,6 +167,8 @@ func LoginController(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
+	BlacklistCheck(user, ip, xbox)
+
 	session.Values["userid"] = user.ID
 	_ = session.Save(r, w)
 
@@ -174,4 +176,15 @@ func LoginController(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "")
 	http.Redirect(w, r, "/", 303)
 	return
+}
+
+func BlacklistCheck(user models.User, ip string, xbox string) {
+	if models.IsBlacklisted(user.ID, xbox) {
+		// user is already blacklisted, nothing to do
+		return
+	}
+
+	if ip != "" && models.IsIPBlacklisted(ip) {
+		_ = user.Blacklist()
+	}
 }

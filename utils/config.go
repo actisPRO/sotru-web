@@ -18,6 +18,7 @@ type Config struct {
 	DiscordSecret   string   `json:"discord_secret"`
 	DiscordBotToken string   `json:"discord_bot_token"`
 	DiscordGuild    string   `json:"discord_guild"`
+	AutoblacklistID string   `json:"autoblacklist_id"`
 	AdminRoles      []string `json:"admin_roles"`
 }
 

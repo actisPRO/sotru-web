@@ -58,10 +58,10 @@ func GetIPs(userID string) ([]IP, error) {
 func GetBlacklistedIPs() ([]IP, error) {
 	var result []IP
 	rows, err := db.Query(
-		`SELECT web_ips.ip
-			   FROM blacklist
+		`SELECT web_ips.*
+			    FROM blacklist
     			    JOIN web_users ON blacklist.discord_id = web_users.id
-    			    JOIN web_ips   ON web_users.id = web_ips.user_id;`)
+    			    JOIN web_ips   ON web_users.id = web_ips.user_id`)
 	if err != nil {
 		if err == sql.ErrNoRows {
 			return result, nil
@@ -87,19 +87,19 @@ func GetBlacklistedIPs() ([]IP, error) {
 }
 
 // Checks if the specified IP is blacklisted
-func IsBlacklisted(ip string) (bool, error) {
+func IsIPBlacklisted(ip string) bool {
 	ips, err := GetBlacklistedIPs()
 	if err != nil {
-		return false, err
+		return false
 	}
 
 	for i := 0; i < len(ips); i++ {
 		if ip == ips[i].IP {
-			return true, nil
+			return true
 		}
 	}
 
-	return false, nil
+	return false
 }
 
 func (ip *IP) SetLastUsed(lastUsed time.Time) error {
