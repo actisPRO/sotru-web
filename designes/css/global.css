@@ -1,0 +1,28 @@
+@font-face {
+    font-family: "Vinque";
+    src: url("../fonts/vinquerg.ttf");
+}
+
+body {
+    font-family: Vinque, Georgia, "serif";
+}
+
+#nav-sub {
+    background: url("../images/background-sub-layer.svg") repeat-x 50% 100%/1200px 144px;
+    z-index: 0;
+}
+
+#nav-top {
+    background: url("../images/background-top-layer.svg") repeat-x 0 0/auto 100%;
+    position: relative;
+    z-index: 1;
+}
+
+#nav-container {
+    margin-right: 10%;
+    margin-left: 10%;
+}
+
+a {
+    color: #a5cbb0;
+}
