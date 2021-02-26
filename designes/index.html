@@ -30,16 +30,60 @@
 </header>
 
 <main>
-    <div class="container-lg" id="page-content">
+    <div class="container w-50" id="page-content">
         <div class="container-fluid" id="page-content-inner">
+            <!-- Username and rule -->
             <div class="row justify-content-center" id="user-greeting">
                 <div class="col-md-auto">
-                    <h2>Привет, User#0000!</h2>
+                    <h2>Привет, Пират#1234!</h2>
                 </div>
             </div>
             <div class="row justify-content-center">
                 <div class="col-md-auto">
                     <img src="images/simple-hr-bandicoot.svg" alt="" class="mx-auto" style="height: 4px">
+                </div>
+            </div>
+            <!-- Profile info is one row with 2 columns: the 1st with text info and the 2nd with avatar-->
+            <div class="ps-5 pt-2">
+                <div class="row">
+                    <!-- Text info -->
+                    <div class="col">
+                        <!-- login date -->
+                        <div class="row align-items-center py-2">
+                            <div class="col-sm-3">
+                                <b>Дата входа</b>
+                            </div>
+                            <div class="col">
+                                16:33:21 12 февраля 2020 (368 дней)
+                            </div>
+                        </div>
+                        <!-- xbox -->
+                        <div class="row align-items-center py-2">
+                            <div class="col-sm-3">
+                                <b>Xbox</b>
+                            </div>
+                            <div class="col">
+                                не привязан
+                            </div>
+                            <div class="col">
+                                <a href="#" class="link-btn btn-green">Привязать</a>
+                            </div>
+                        </div>
+                        <!-- voice time -->
+                        <div class="row align-items-center py-2">
+                            <div class="col-sm-3">
+                                <b>Время в голосовых каналах</b>
+                            </div>
+                            <div class="col">
+                                392 часа 16 минут 28 секунд
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Avatar -->
+                    <div class="col">
+                        <img class="avatar avatar-normal me-3 d-block float-end" src="images/examples/avatar.png"
+                             alt="Avatar">
+                    </div>
                 </div>
             </div>
         </div>
