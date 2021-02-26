@@ -6,7 +6,7 @@
 body {
     font-family: Vinque, Georgia, "serif";
     background-image: url("../images/background.jpg");
-    background-position: 4% center;
+    background-position: 21% center;
     background-attachment: fixed;
     background-repeat: no-repeat;
     background-size: cover;
@@ -34,44 +34,60 @@ a.navbar-brand {
 
 main {
     color: #1d4351;
-    padding: 5%;
+}
+
+@media (min-width: 768px) {
+    #page-content {
+        border-image-repeat: stretch repeat;
+        border-image-slice: 60 30 28;
+    }
 }
 
 #page-content {
-    padding: 0;
+    margin: 5%;
     border: 14px solid #d3c8ac;
     border-image-source: url("../images/content-background.svg");
-    border-image-slice: 60 30 28;
-    border-image-repeat: stretch repeat;
-    border-image-width: 15px;
-    border-image-outset: 0;
+    border-image-repeat: repeat;
+    border-image-slice: 30 62 28;
 }
 
 #page-content-inner {
     background-color: #d3c8ac;
 }
 
+table > thead, table > tbody {
+    color: #1d4351;
+}
+
+tbody > tr > th {
+    font-weight: normal;
+}
+
+table > caption {
+    color: #1d4351;
+    font-weight: bold;
+}
+
 .avatar {
+    border: 3px solid black;
     border-radius: 50%;
-}
-
-.avatar-normal {
-    width: 75%;
-}
-
-.link-btn {
-    text-transform: uppercase;
-    text-decoration: none;
-    padding: 15px;
-    font-size: 12px;
 }
 
 .btn-green {
     color: white;
-    background: url("../images/green-button-sprite.svg#off");
+    background: url("../images/green-button-sprite.svg#off") 0/100% 100% no-repeat;
 }
 
 .btn-green:hover {
     color: white;
-    background: url("../images/green-button-sprite.svg#hover");
+    background: url("../images/green-button-sprite.svg#hover") 0/100% 100% no-repeat;
+}
+
+.btn-green:focus {
+    box-shadow: 0 0 15px #000;
+}
+
+.btn-small {
+    padding: 10px 20px;
+    letter-spacing: .05em;
 }
