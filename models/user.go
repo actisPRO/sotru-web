@@ -172,6 +172,37 @@ func (user *User) AddXbox(xbox string, lastUsed time.Time) error {
 	return nil
 }
 
+func (user *User) GetVoiceTime() (time.Duration, error) {
+	voiceTime, err := GetVoiceTime(user.ID)
+	if err != nil {
+		return 0, err
+	}
+
+	return voiceTime.Time(), nil
+}
+
+func (user *User) GetWarnings() ([]Warning, error) {
+	warnings, err := GetUserWarnings(user.ID)
+	if err != nil {
+		return nil, err
+	}
+
+	return warnings, nil
+}
+
+func (user *User) GetGuildJoinDate() (time.Time, error) {
+	dUser, err := bot.GuildMember(config.DiscordGuild, user.ID)
+	if err != nil {
+		return time.Time{}, err
+	}
+	res, err := dUser.JoinedAt.Parse()
+	if err != nil {
+		return time.Time{}, err
+	}
+
+	return res, nil
+}
+
 func (user *User) SetUsername(username string) error {
 	_, err := db.Exec("UPDATE web_users SET Username = ? WHERE ID = ?", username, user.ID)
 	if err != nil {
