@@ -61,3 +61,29 @@ main {
     padding-top: 1%;
     padding-bottom: 1%;
 }
+
+.avatar {
+    border-radius: 50%;
+}
+
+.avatar-normal {
+    width: 256px;
+    height: 256px;
+}
+
+.link-btn {
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 15px;
+    font-size: 12px;
+}
+
+.btn-green {
+    color: white;
+    background: url("../images/green-button-sprite.svg#off");
+}
+
+.btn-green:hover {
+    color: white;
+    background: url("../images/green-button-sprite.svg#hover");
+}
