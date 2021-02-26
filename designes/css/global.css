@@ -5,6 +5,12 @@
 
 body {
     font-family: Vinque, Georgia, "serif";
+    background-image: url("../images/background.jpg");
+    background-position: 4% center;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-color: black;
 }
 
 #nav-sub {
@@ -23,6 +29,35 @@ body {
     margin-left: 10%;
 }
 
+.navbar-brand {
+    margin-right: 4%;
+}
+
 a {
     color: #a5cbb0;
+}
+
+a.navbar-brand {
+    color: white;
+}
+
+main {
+    color: #1d4351;
+}
+
+#page-content {
+    margin-top: 5%;
+    padding: 0;
+    border: 14px solid #d3c8ac;
+    border-image-source: url("../images/content-background.svg");
+    border-image-slice: 60 30 28;
+    border-image-repeat: stretch repeat;
+    border-image-width: 15px;
+    border-image-outset: 0;
+}
+
+#page-content-inner {
+    background-color: #d3c8ac;
+    padding-top: 1%;
+    padding-bottom: 1%;
 }
