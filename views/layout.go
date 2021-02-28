@@ -2,7 +2,7 @@ package views
 
 type Layout struct {
 	Title string
-	// might be: index, blacklist
+	// might be: index, blacklists
 	Page    string
 	Access  int
 	Content interface{}

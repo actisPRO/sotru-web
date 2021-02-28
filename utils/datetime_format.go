@@ -54,7 +54,7 @@ func FormatDateTime(input time.Time) string {
 		break
 	}
 
-	return fmt.Sprintf("%d:%d:%d %d %s %d", input.Hour(), input.Minute(), input.Second(), input.Year(), month, input.Year())
+	return fmt.Sprintf("%02d:%02d:%02d %d %s %d", input.Hour(), input.Minute(), input.Second(), input.Day(), month, input.Year())
 }
 
 // Returns a correct duration in Russian

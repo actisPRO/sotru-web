@@ -25,14 +25,16 @@
                             </div>
                         </div>
                         <!-- Following data is not hidden -->
-                        <div class="row pe-0">
-                            <div class="col-4">
-                                <b>Дата входа</b>
+                        {{ if ne .Content.JoinedAt "" }}
+                            <div class="row pe-0">
+                                <div class="col-4">
+                                    <b>Дата входа</b>
+                                </div>
+                                <div class="col-8 px-0">
+                                    <p class="text-end">{{ .Content.JoinedAt }}</p>
+                                </div>
                             </div>
-                            <div class="col-8 px-0">
-                                <p class="text-end">16:02:28 12 февраля 2020 (236 дней)</p>
-                            </div>
-                        </div>
+                        {{ end }}
                         <div class="row pe-0">
                             <div class="col-4">
                                 <b>Xbox</b>
@@ -57,41 +59,34 @@
                                 </div>
                             </div>
                         {{ end }}
-                        <div class="row pe-0 mt-1">
-                            <div class="col table-responsive">
-                                <table class="table table-hover table-bordered table-sm border-dark">
-                                    <caption class="caption-top">Количество предупреждений: 3</caption>
-                                    <thead>
-                                    <tr>
-                                        <th scope="col">ID</th>
-                                        <th scope="col">Дата</th>
-                                        <th scope="col">Модератор</th>
-                                        <th scope="col">Причина</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <tr>
-                                        <th scope="row">YCIDSX</th>
-                                        <td>12:02:23 18.03.2020</td>
-                                        <td>actis#1288</td>
-                                        <td>Оскорбление</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">AXTTYO</th>
-                                        <td>14:23:58 21.12.2020</td>
-                                        <td>yTkOo#4716</td>
-                                        <td>полиция мемов</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">DWYBBL</th>
-                                        <td>0:29:18 23.02.2021</td>
-                                        <td>𝘏𝘰𝘮𝘺𝘢𝘬𝘜𝘣𝘪𝘺𝘵𝘤𝘢#0494</td>
-                                        <td>спам в поиск игроков повторно после первого предупреждения</td>
-                                    </tr>
-                                    </tbody>
-                                </table>
+                        {{ if gt .Content.WarnsCount 0 }}
+                            <div class="row pe-0 mt-1">
+                                <div class="col table-responsive">
+                                    <table class="table table-hover table-bordered table-sm border-dark">
+                                        <caption class="caption-top">Количество
+                                            предупреждений: {{ .Content.WarnsCount }}</caption>
+                                        <thead>
+                                        <tr>
+                                            <th scope="col">ID</th>
+                                            <th scope="col">Дата</th>
+                                            <th scope="col">Модератор</th>
+                                            <th scope="col">Причина</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {{ range .Content.Warnings }}
+                                            <tr>
+                                                <th scope="row">{{ .ID }}</th>
+                                                <td>{{ .Date }}</td>
+                                                <td>{{ .Moderator }}</td>
+                                                <td>{{ .Reason }}</td>
+                                            </tr>
+                                        {{ end }}
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
-                        </div>
+                        {{ end }}
                         <!-- Exit button for mobile devices -->
                         <div class="row d-lg-none d-md-block justify-content-center">
                             <div class="col-auto">
