@@ -21,7 +21,7 @@
                         <!-- Hello message (hidden on deviced < md -->
                         <div class="row d-none d-lg-block my-3">
                             <div class="col">
-                                <h2>Привет, {{ .Content.Username }} </h2>
+                                <h2>Привет, {{ .Content.Username }}</h2>
                             </div>
                         </div>
                         <!-- Following data is not hidden -->
@@ -60,8 +60,8 @@
                             </div>
                         {{ end }}
                         {{ if gt .Content.WarnsCount 0 }}
-                            <div class="row pe-0 mt-1">
-                                <div class="col table-responsive">
+                            <div class="row mt-1">
+                                <div class="col pe-0 table-responsive">
                                     <table class="table table-hover table-bordered table-sm border-dark">
                                         <caption class="caption-top">Количество
                                             предупреждений: {{ .Content.WarnsCount }}</caption>
