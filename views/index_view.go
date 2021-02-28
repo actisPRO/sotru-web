@@ -34,14 +34,20 @@ func ExecuteIndex(user models.User, w http.ResponseWriter, r *http.Request) erro
 	if err == nil {
 		voiceTime = utils.FormatDuration(vtd)
 	}
+	xbox := ""
+	xboxes, _ := user.GetXboxes()
+	if len(xboxes) > 0 {
+		xbox = xboxes[0].Xbox
+	}
 
 	content := IndexContent{
 		Username:  user.Username,
 		Avatar:    user.AvatarURL,
+		Xbox:      xbox,
 		VoiceTime: voiceTime,
 	}
 
-	tmpl, err := template.ParseFiles("templates/layout.gohtml", "templates/index.gohtml")
+	tmpl, err := template.ParseFiles("templates/layout.gohtml", "templates/index.gohtml", "templates/navbar.gohtml")
 	if err != nil {
 		return err
 	}

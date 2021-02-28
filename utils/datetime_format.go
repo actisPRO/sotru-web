@@ -59,23 +59,20 @@ func FormatDateTime(input time.Time) string {
 
 // Returns a correct duration in Russian
 func FormatDuration(input time.Duration) string {
-	input = input.Round(time.Second)
-	h := input / time.Hour
-	input -= h * time.Hour
-	m := input / time.Minute
-	input -= m * time.Minute
-	s := input / time.Second
+	s := int(input.Milliseconds() / 1000)
+	h := s / 3600
+	s -= h * 3600
+	m := s / 60
+	s -= m * 60
 
 	str := ""
-	if int(h.Hours()) > 0 {
-		str += FormatUnit(int(h.Hours()), Hours) + " "
+	if h > 0 {
+		str += FormatUnit(h, Hours) + " "
 	}
-	if int(m.Minutes()) > 0 {
-		str += FormatUnit(int(m.Minutes()), Minutes) + " "
+	if m > 0 {
+		str += FormatUnit(m, Minutes) + " "
 	}
-	if int(h.Seconds()) > 0 {
-		str += FormatUnit(int(s.Seconds()), Seconds)
-	}
+	str += FormatUnit(s, Seconds)
 
 	return str
 }
@@ -146,4 +143,11 @@ func FormatUnit(num int, unit int) string {
 	}
 
 	return fmt.Sprintf("%d %s", num, str)
+}
+
+func round(val float64) int {
+	if val < 0 {
+		return int(val - 0.5)
+	}
+	return int(val + 0.5)
 }
