@@ -120,7 +120,7 @@ func LoginController(w http.ResponseWriter, r *http.Request) {
 		// there is no user with the specified ID => register user.
 		if err == sql.ErrNoRows {
 			user, err = models.CreateUser(discordUser.ID, discordUser.String(), time.Now(), time.Now(),
-				discordUser.AvatarURL(""), accessToken, refreshToken, accessExpiration)
+				discordUser.AvatarURL("400x400"), accessToken, refreshToken, accessExpiration)
 		}
 
 		// second check in case we create user
@@ -129,9 +129,12 @@ func LoginController(w http.ResponseWriter, r *http.Request) {
 			http.Error(w, err.Error(), 500)
 			return
 		}
+	} else {
+		// no errors, user is registered
+		_ = user.SetLastLogin(time.Now())
+		_ = user.SetAvatar(discordUser.AvatarURL("400x400"))
+		_ = user.SetUsername(discordUser.Username)
 	}
-
-	_ = user.SetLastLogin(time.Now())
 
 	// if user's used this IP, we should find it and update last usage
 	if ip != "" {

@@ -26,7 +26,7 @@ func IndexController(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
-	err = views.ExecuteIndex(user, w)
+	err = views.ExecuteIndex(user, w, r)
 	if err != nil {
 		logger.Error(err.Error())
 		http.Error(w, err.Error(), 500)
