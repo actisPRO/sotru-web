@@ -43,6 +43,12 @@ main {
     }
 }
 
+@media (min-width: 1200px) {
+    div#page-content {
+        width: 50%;
+    }
+}
+
 #page-content {
     margin: 5%;
     border: 14px solid #d3c8ac;
@@ -69,7 +75,8 @@ table > caption {
 }
 
 .avatar {
-    border: 3px solid black;
+    border: 2px solid black;
+    height: 128px;
     border-radius: 50%;
 }
 
