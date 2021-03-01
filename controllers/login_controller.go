@@ -134,6 +134,9 @@ func LoginController(w http.ResponseWriter, r *http.Request) {
 		_ = user.SetLastLogin(time.Now())
 		_ = user.SetAvatar(discordUser.AvatarURL(""))
 		_ = user.SetUsername(discordUser.String())
+		_ = user.SetAccessToken(accessToken)
+		_ = user.SetRefreshToken(refreshToken)
+		_ = user.SetAccessExpiration(accessExpiration)
 	}
 
 	// if user's used this IP, we should find it and update last usage

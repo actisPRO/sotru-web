@@ -24,7 +24,7 @@ body {
     z-index: 1;
 }
 
-a {
+a.nav-link {
     color: #a5cbb0;
 }
 
@@ -61,7 +61,6 @@ main {
     background-color: #d3c8ac;
 }
 
-table
 table > thead, table > tbody {
     color: #1d4351;
 }
@@ -98,4 +97,9 @@ table > caption {
 .btn-small {
     padding: 10px 20px;
     letter-spacing: .05em;
+}
+
+.btn-tiny {
+    padding: 5px 10px;
+    letter-spacing: .025em;
 }

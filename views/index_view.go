@@ -74,6 +74,7 @@ func ExecuteIndex(user models.User, w http.ResponseWriter, r *http.Request) erro
 
 	err = tmpl.ExecuteTemplate(w, "layout", Layout{
 		Title:   "Главная страница",
+		Page:    "index",
 		Access:  access,
 		Content: content,
 	})

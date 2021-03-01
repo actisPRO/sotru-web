@@ -18,7 +18,7 @@
                 <div class="row m-lg-2 mb-lg-4">
                     <!-- Text info -->
                     <div class="col col-lg-8">
-                        <!-- Hello message (hidden on deviced < md -->
+                        <!-- Hello message (hidden on devices < md -->
                         <div class="row d-none d-lg-block my-3">
                             <div class="col">
                                 <h2>Привет, {{ .Content.Username }}</h2>
@@ -26,6 +26,7 @@
                         </div>
                         <!-- Following data is not hidden -->
                         {{ if ne .Content.JoinedAt "" }}
+                            <!-- Joined date -->
                             <div class="row pe-0">
                                 <div class="col-4">
                                     <b>Дата входа</b>
@@ -35,21 +36,25 @@
                                 </div>
                             </div>
                         {{ end }}
-                        <div class="row pe-0">
+                        <!-- Xbox -->
+                        <div class="row align-items-center pe-0">
                             <div class="col-4">
                                 <b>Xbox</b>
                             </div>
                             <div class="col-8 px-0">
-                                <p class="text-end">
-                                    {{ if ne .Content.Xbox "" }}
+                                {{ if ne .Content.Xbox "" }}
+                                    <p class="text-end">
                                         {{ .Content.Xbox }}
-                                    {{ else }}
-                                        не привязан
-                                    {{ end }}
-                                </p>
+                                    </p>
+                                {{ else }}
+                                    <p class="text-end">
+                                        не привязан <a class="btn btn-green btn-tiny" href="/refresh">Обновить</a>
+                                    </p>
+                                {{ end }}
                             </div>
                         </div>
                         {{ if ne .Content.VoiceTime "" }}
+                            <!-- Voice time -->
                             <div class="row pe-0">
                                 <div class="col-4">
                                     <b>Время в голосовых каналах</b>
@@ -60,6 +65,7 @@
                             </div>
                         {{ end }}
                         {{ if gt .Content.WarnsCount 0 }}
+                            <!-- Warnings -->
                             <div class="row mt-1">
                                 <div class="col pe-0 table-responsive">
                                     <table class="table table-hover table-bordered table-sm border-dark">
