@@ -10,6 +10,7 @@ import (
 	"gopkg.in/boj/redistore.v1"
 	"net/http"
 	"os"
+	"sotru-web/cache"
 	"sotru-web/controllers"
 	"sotru-web/models"
 	"sotru-web/utils"
@@ -74,6 +75,7 @@ func main() {
 		logger.Fatal("Unable to open Discord connection. Error: " + err.Error())
 	}
 	models.UseDiscord(config.DiscordGuild, bot)
+	cache.UseDiscord(config.DiscordGuild, bot)
 	logger.Info("Discord connection established")
 
 	r := mux.NewRouter()
