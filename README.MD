@@ -9,7 +9,7 @@
 * User profile with Discord server join date, Xbox, time spent in voice channels and list of warnings.
 * Fleet blacklist (users who has seriously violated and are permanently banned from the participating in fleet raids)
 * **Planned:** publicly available top of Discord server members by join date and voice time
-* **PLanned:** managing bot service by administrators 
+* **Planned:** managing bot service by administrators 
 
 ## Technology stack
 * **Backend:** Go 
