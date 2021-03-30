@@ -7,8 +7,8 @@
 ## Features 
 * Authorization via Discord OAuth2
 * User profile with Discord server join date, Xbox, time spent in voice channels and list of warnings.
-* Fleet blacklist (users who has seriously violated and are permanently banned from the participating in fleet raids)
-* **Planned:** publicly available top of Discord server members by join date and voice time
+* Fleet blacklist (users who has seriously violated rules and are permanently banned from participating in fleet raids)
+* publicly available top of Discord server members by join date and voice time
 * **Planned:** managing bot service by administrators 
 
 ## Technology stack
