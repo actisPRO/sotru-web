@@ -82,6 +82,7 @@ func main() {
 	r.HandleFunc("/", controllers.IndexController)
 	r.HandleFunc("/login", controllers.LoginController)
 	r.HandleFunc("/logout", controllers.LogoutController)
+	r.HandleFunc("/refresh", controllers.RefreshController)
 	s := http.StripPrefix("/static/", http.FileServer(http.Dir("./static/")))
 	r.PathPrefix("/static/").Handler(s)
 	http.Handle("/", r)
