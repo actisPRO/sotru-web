@@ -1,10 +1,10 @@
 @font-face {
-    font-family: "Vinque";
-    src: url("../fonts/vinquerg.ttf");
+    font-family: "Podkova";
+    src: url("../fonts/Podkova-VariableFont_wght.ttf");
 }
 
 body {
-    font-family: Vinque, Georgia, "serif";
+    font-family: Podkova, Georgia, "serif";
     background-image: url("../images/background.jpg");
     background-position: 21% center;
     background-attachment: fixed;

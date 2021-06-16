@@ -22,8 +22,8 @@ func GetUserInfo(id string) (UserInfo, error) {
 		}
 	}
 
-	// refresh cache, if the value was stored more then a minute ago
-	if time.Now().Sub(res.StoredAt).Minutes() > 60 {
+	// refresh cache, if the value was stored more then 10 minutes ago
+	if time.Now().Sub(res.StoredAt).Minutes() > 600 {
 		_ = loadUserToCache(id)
 		res = userCache[id]
 	}
