@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"fmt"
 	"github.com/bwmarrin/discordgo"
+	"github.com/garyburd/redigo/redis"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/google/logger"
 	"github.com/gorilla/mux"
@@ -57,7 +58,7 @@ func main() {
 	// session store
 	store, err = redistore.NewRediStore(10, "tcp", ":6379", "", []byte(config.SessionSecret))
 	if err != nil {
-		logger.Fatal("Unable to connect to Redis session store. Error: " + err.Error())
+		logger.Fatal("Unable to connect to Redis session storage. Error: " + err.Error())
 	}
 	defer store.Close()
 	store.SetMaxAge(14 * 24 * 3600)
@@ -75,7 +76,13 @@ func main() {
 		logger.Fatal("Unable to open Discord connection. Error: " + err.Error())
 	}
 	models.UseDiscord(config.DiscordGuild, bot)
+
 	cache.UseDiscord(config.DiscordGuild, bot)
+	cache.Connection, err = redis.Dial("tcp", ":6379")
+	if err != nil {
+		logger.Fatal("Unable to connect to Redis (cache). Error: " + err.Error())
+	}
+
 	logger.Info("Discord connection established")
 
 	r := mux.NewRouter()

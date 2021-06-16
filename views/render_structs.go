@@ -1,6 +1,7 @@
 package views
 
 import (
+	"github.com/google/logger"
 	"sotru-web/cache"
 	"sotru-web/models"
 	"sotru-web/utils"
@@ -22,7 +23,7 @@ func PrepareWarnings(input []models.Warning) []RenderWarning {
 
 	for i := 0; i < len(input); i++ {
 		mod := input[i].Moderator
-		modInfo, err := cache.GetUserInfo(input[i].Moderator)
+		modInfo, err := cache.GetUserInfo(input[i].Moderator, 600)
 		if err == nil {
 			mod = modInfo.Username
 		}
@@ -55,8 +56,9 @@ type RenderBlacklistEntry struct {
 func PrepareBlacklistEntries(input []models.BlacklistEntry) []RenderBlacklistEntry {
 	var result []RenderBlacklistEntry
 	for i := 0; i < len(input); i++ {
+		logger.Info("Caching for ID ", i)
 		user := input[i].DiscordID.String
-		userInfo, err := cache.GetUserInfo(user)
+		userInfo, err := cache.GetUserInfo(user, 3600*4)
 		if err == nil {
 			user = userInfo.Username
 		} else {
@@ -64,7 +66,7 @@ func PrepareBlacklistEntries(input []models.BlacklistEntry) []RenderBlacklistEnt
 		}
 
 		mod := input[i].ModeratorID
-		modInfo, err := cache.GetUserInfo(mod)
+		modInfo, err := cache.GetUserInfo(mod, 600)
 		if err == nil {
 			mod = modInfo.Username
 		}

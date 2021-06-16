@@ -2,11 +2,13 @@ package cache
 
 import (
 	"github.com/bwmarrin/discordgo"
+	"github.com/garyburd/redigo/redis"
 )
 
 var (
-	bot   *discordgo.Session
-	guild string
+	Connection redis.Conn
+	bot        *discordgo.Session
+	guild      string
 )
 
 func UseDiscord(guildID string, session *discordgo.Session) {
