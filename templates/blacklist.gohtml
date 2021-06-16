@@ -23,17 +23,23 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr>
-                                    <th scope="row">EXAMP1</th>
-                                    <td><abbr title="ID: 437301228251250699">Example#0000</abbr></td>
-                                    <td>Example</td>
-                                    <td>01.01.1970</td>
-                                    <td>Example#0000</td>
-                                    <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                                        incididunt ut labore et dolore magna aliqua.
-                                    </td>
-                                    <td><a class="link-secondary" href="#">Link</a></td>
-                                </tr>
+                                {{ range .Content }}
+                                    <tr>
+                                        <th scope="row">{{ .ID }}</th>
+                                        <td><abbr title="ID: {{ .DiscordID }}">{{ .DiscordUser }}</abbr></td>
+                                        <td>{{ .Xbox }}</td>
+                                        <td>{{ .Date }}</td>
+                                        <td>{{ .Moderator }}</td>
+                                        <td>{{ .Reason }}</td>
+                                        <td>
+                                            {{ if .IsLink }}
+                                                <a class="link-secondary" href="{{ .Additional }}">{{ .Website }}</a>
+                                            {{ else }}
+                                                {{ .Additional }}
+                                            {{ end }}
+                                        </td>
+                                    </tr>
+                                {{ end }}
                                 </tbody>
                             </table>
                         </div>

@@ -1,18 +1,19 @@
 package models
 
 import (
+	"database/sql"
 	"time"
 )
 
 type BlacklistEntry struct {
 	ID          string
-	DiscordID   string
-	DiscordName string
-	XboxTag     string
+	DiscordID   sql.NullString
+	DiscordName sql.NullString
+	XboxTag     sql.NullString
 	BanDate     time.Time
 	ModeratorID string
-	Reason      string
-	Additional  string
+	Reason      sql.NullString
+	Additional  sql.NullString
 }
 
 // Creates new BlacklistEntry and saves it to the database
@@ -27,13 +28,13 @@ func CreateBlacklistEntry(id string, discordID string, discordName string, xbox 
 
 	return BlacklistEntry{
 		ID:          id,
-		DiscordID:   discordID,
-		DiscordName: discordName,
-		XboxTag:     xbox,
+		DiscordID:   sql.NullString{String: discordID},
+		DiscordName: sql.NullString{String: discordName},
+		XboxTag:     sql.NullString{String: xbox},
 		BanDate:     banDate,
 		ModeratorID: moderatorID,
-		Reason:      reason,
-		Additional:  additional,
+		Reason:      sql.NullString{String: reason},
+		Additional:  sql.NullString{String: additional},
 	}, nil
 }
 
@@ -44,6 +45,35 @@ func GetBlacklistEntry(id string) (BlacklistEntry, error) {
 		&result.DiscordName, &result.XboxTag, &result.BanDate, &result.ModeratorID, &result.Reason, &result.Additional)
 	if err != nil {
 		return BlacklistEntry{}, err
+	}
+
+	return result, nil
+}
+
+// Gets all entities of BlacklistEntry in the
+func GetAllBlacklistEntries() ([]BlacklistEntry, error) {
+	var result []BlacklistEntry
+	rows, err := db.Query("SELECT * FROM blacklist ORDER BY ban_date DESC")
+	if err != nil {
+		if err == sql.ErrNoRows {
+			return result, nil
+		}
+		return nil, err
+	}
+	defer rows.Close()
+
+	for rows.Next() {
+		nextEntry := BlacklistEntry{}
+		err = rows.Scan(&nextEntry.ID, &nextEntry.DiscordID, &nextEntry.DiscordName, &nextEntry.XboxTag, &nextEntry.BanDate,
+			&nextEntry.ModeratorID, &nextEntry.Reason, &nextEntry.Additional)
+		if err != nil {
+			return nil, err
+		}
+		result = append(result, nextEntry)
+	}
+	err = rows.Err()
+	if err != nil {
+		return nil, err
 	}
 
 	return result, nil
@@ -72,7 +102,7 @@ func IsBlacklisted(discordID string, xbox string) bool {
 	return true
 }
 
-func (entry *BlacklistEntry) SetDiscordID(value string) error {
+func (entry *BlacklistEntry) SetDiscordID(value sql.NullString) error {
 	_, err := db.Exec("UPDATE blacklist SET discord_id = ? WHERE id = ?", value, entry.ID)
 	if err != nil {
 		return err
@@ -82,7 +112,7 @@ func (entry *BlacklistEntry) SetDiscordID(value string) error {
 	return nil
 }
 
-func (entry *BlacklistEntry) SetDiscordName(value string) error {
+func (entry *BlacklistEntry) SetDiscordName(value sql.NullString) error {
 	_, err := db.Exec("UPDATE blacklist SET discord_username = ? WHERE id = ?", value, entry.ID)
 	if err != nil {
 		return err
@@ -92,7 +122,7 @@ func (entry *BlacklistEntry) SetDiscordName(value string) error {
 	return nil
 }
 
-func (entry *BlacklistEntry) SetXboxTag(value string) error {
+func (entry *BlacklistEntry) SetXboxTag(value sql.NullString) error {
 	_, err := db.Exec("UPDATE blacklist SET xbox = ? WHERE id = ?", value, entry.ID)
 	if err != nil {
 		return err
@@ -122,7 +152,7 @@ func (entry *BlacklistEntry) SetModeratorID(value string) error {
 	return nil
 }
 
-func (entry *BlacklistEntry) SetReason(value string) error {
+func (entry *BlacklistEntry) SetReason(value sql.NullString) error {
 	_, err := db.Exec("UPDATE blacklist SET reason = ? WHERE id = ?", value, entry.ID)
 	if err != nil {
 		return err
@@ -132,7 +162,7 @@ func (entry *BlacklistEntry) SetReason(value string) error {
 	return nil
 }
 
-func (entry *BlacklistEntry) SetAdditional(value string) error {
+func (entry *BlacklistEntry) SetAdditional(value sql.NullString) error {
 	_, err := db.Exec("UPDATE blacklist SET additional = ? WHERE id = ?", value, entry.ID)
 	if err != nil {
 		return err
