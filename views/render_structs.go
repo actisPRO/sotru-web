@@ -1,7 +1,6 @@
 package views
 
 import (
-	"github.com/google/logger"
 	"sotru-web/cache"
 	"sotru-web/models"
 	"sotru-web/utils"
@@ -56,13 +55,21 @@ type RenderBlacklistEntry struct {
 func PrepareBlacklistEntries(input []models.BlacklistEntry) []RenderBlacklistEntry {
 	var result []RenderBlacklistEntry
 	for i := 0; i < len(input); i++ {
-		logger.Info("Caching for ID ", i)
 		user := input[i].DiscordID.String
-		userInfo, err := cache.GetUserInfo(user, 3600*4)
-		if err == nil {
-			user = userInfo.Username
+		// Discord ID might be 0, as NULL is not used in the DB
+		if user == "0" || user == "" {
+			user = ""
 		} else {
-			user = input[i].DiscordName.String
+			userInfo, err := cache.GetUserInfo(user, 3600*4)
+			if err == nil {
+				user = userInfo.Username
+			} else {
+				user = input[i].DiscordName.String
+			}
+
+			if user == "" {
+				user = input[i].DiscordID.String
+			}
 		}
 
 		mod := input[i].ModeratorID

@@ -20,23 +20,17 @@ func GetUserInfo(id string, maxAge int) (UserInfo, error) {
 	username, err := redis.String(Connection.Do("HGET", id, "username"))
 	avatar, err := redis.String(Connection.Do("HGET", id, "avatar"))
 	timeStr, err := redis.String(Connection.Do("HGET", id, "stored"))
-	if err != nil {
-		err = loadUserToCache(id)
-		if err != nil {
-			return UserInfo{}, err
-		}
-	}
 
 	info.Username = username
 	info.AvatarURL = avatar
+	if err != nil {
+		go loadUserToCache(id)
+		return UserInfo{}, nil
+	}
 
 	info.StoredAt, err = time.Parse("2006-01-02 15:04:05 -0700", timeStr)
 	if err != nil {
-		err = loadUserToCache(id)
-		if err != nil {
-			return info, nil
-		}
-
+		go loadUserToCache(id)
 		return info, nil
 	}
 
@@ -45,11 +39,7 @@ func GetUserInfo(id string, maxAge int) (UserInfo, error) {
 	age := t.Sub(info.StoredAt)
 
 	if int(age.Seconds()) > maxAge {
-		err = loadUserToCache(id)
-		if err != nil {
-			return info, nil
-		}
-
+		go loadUserToCache(id)
 		return info, nil
 	}
 
@@ -57,6 +47,8 @@ func GetUserInfo(id string, maxAge int) (UserInfo, error) {
 }
 
 func loadUserToCache(id string) error {
+	//logger.Info("Caching data for user " + id)
+
 	user, err := bot.User(id)
 	if err != nil {
 		return err
